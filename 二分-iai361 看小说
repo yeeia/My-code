@@ -1,0 +1,50 @@
+/*
+    iai361 看小说
+    题目链接：https://iai.sh.cn/problem/361
+    算法：二分，可以当做模板题
+    二分中最核心的思想：设计左闭右开的区间,避免死循环
+*/
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+const int N=100010;
+int n,m,a[N];
+bool test(int target)
+{
+	int happy=0;
+	int j=0;
+	for(int i=0;i<n;++i)
+	{
+		while(happy<target)
+		{
+			if(j>=m) return 0;
+			happy+=a[j];
+			j++;
+		}
+		happy/=2;
+	}
+	return 1;
+}
+int main()
+{
+	cin.tie(0);
+	cout.tie(0);
+	cin>>n>>m;
+	for(int i=0;i<m;++i) cin>>a[i];
+	int low=0; //左闭右开区间  [low,high) low 可以为真，high不能为真
+	int high=2000000001; //右边开区间
+	while(low+1!=high)
+	{
+		int mid=low+(high-low)/2;//灰常高级的写法！避免溢出！
+		if(test(mid))// 满足条件，则mid赋值给low，low可以为真
+		{
+			low=mid;
+		}
+		else 
+		{
+			high=mid;//否则 赋值给high，
+		}
+	}
+	cout<<low<<endl; //返回low，为真
+	return 0;
+}
